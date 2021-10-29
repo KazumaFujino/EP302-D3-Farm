@@ -15,6 +15,16 @@ static const char* cpResponse200 = "<HTML>"
  "CONTROL WEB<br/><br/>"
  "<a href=/cmd?CMD=dummy>DUMMY</a><br/>"
  "</BODY></HTML>\r\n";
+
+// HTTP Server Data
+#define IMG_BUF 4096
+const char* host   = "172.18.9.97";
+const int httpPort = 80;
+const char* path   = "/";
+
+WiFiClient client;
+char buf[IMG_BUF];
+ 
 //流量センサのパラメータ
 #define PinSensorePIR D1
 volatile int pulseCount;
@@ -49,7 +59,7 @@ void setup() {
   Serial.println("");
 
   // Set up mDNS responder:
-  if (!MDNS.begin("d3")) { // d3.local
+  if (!MDNS.begin("watersensor")) { // watersensor.local
     Serial.println("Error setting up MDNS responder!");
     while (1) {
       delay(1000);
@@ -61,7 +71,8 @@ void setup() {
   // WebServer Commands
   server.on("/cmd", WebCommand);
   
-  /*// WebServer Handles
+  // WebServer Handles
+  /*
   server.on("/", [](){
     String html = HTML_HEADER "<h1>EP302 D3!</h1>" HTML_FOOTER;
     server.send(200, "text/html", html);
@@ -69,12 +80,17 @@ void setup() {
   server.on("/member0", [](){
     String html = HTML_HEADER "<h1>Kazuma Fujino</h1>" HTML_FOOTER;
     server.send(200, "text/html", html);
-  }); */
+  });
+  */
   
   server.begin();
 
   // Add service to MDNS-SD
   MDNS.addService("http", "tcp", 8080);
+
+  // HTTP Server
+  Serial.println("送信準備中");
+  if (!client.connect(host, httpPort))Serial.println("接続に失敗しました。");
 
   //流量センサ
   pinMode(D1, INPUT);
@@ -84,10 +100,7 @@ void setup() {
 
 void WebCommand() {
   String cmd = server.arg("CMD");
-  if (cmd == "dummy")  {
-    // hogehoge...
-  }
-  else   if (cmd == "reset")  { //　resetコマンドでWiFi再設定
+  if (cmd == "reset")  { //　resetコマンドでWiFi再設定
     WiFiManager wifiManager;
     delay(1000);
     Serial.println("");
@@ -112,6 +125,28 @@ void loop() {
   ryuuryou=((pulseCount / keisuu )/60);
   sam_ryuuryou=sam_ryuuryou+ryuuryou;
   pulseCount = 0;
-  Serial.println(sam_ryuuryou);
+//  Serial.println(sam_ryuuryou);
+
+    String body = String(sam_ryuuryou);
+    client.print(String("POST ") + path + " HTTP/1.1\r\n" +
+                 "Host: " + host + "\r\n" +
+                 "Body: " + body + "\r\n" +
+                 "Connection: close\r\n\r\n");
+
+    unsigned long timeout = millis();
+    while (client.available() == 0) {
+      if (millis() - timeout > 10000) {
+        Serial.println(">>> タイムアウトしました。");
+        client.stop();
+        return;
+      }
+    }
+    Serial.println("--------------------");
+    while (client.available()) {
+      char c = client.read();
+      Serial.print(c);
+    }
+    Serial.println("");
+    Serial.println("--------------------");
   }
 }
