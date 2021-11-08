@@ -1,9 +1,9 @@
 #include <ESP8266WiFi.h>
 #include <WiFiManager.h> 
 
-#define SERIAL_SPEED 115200
+#define SERIAL_SPEED 115200 // ボーレート
 #define WM_FIXERASECONFIG // use erase flash fix, esp8266 2.4.0
-#define PinSensorePIR D1  // water sensor PIR
+#define PinSensorePIR D1  // water sensorのPIR
 
 // HTTP サーバサイドの情報
 #define IMG_BUF 4096
@@ -62,11 +62,11 @@ void loop() {
   amount=((pulseCount /coefficient)/60);
   total_amount += amount;
   pulseCount = 0;
-//  Serial.println(total_amount);
+//  Serial.println(total_amount);//総水量の表示
 
   // HTTP サーバ接続
   Serial.println("送信します");
-  if (!client.connect(host, httpPort)){Serial.println("接続に失敗しました。");return;}
+  if (!client.connect(host, httpPort)){Serial.println("接続に失敗しました");return;}
 
     String body = String(total_amount);
     client.print(String("POST ") + path + " HTTP/1.1\r\n" +
@@ -78,7 +78,7 @@ void loop() {
     unsigned long timeout = millis();
     while (client.available() == 0) {
       if (millis() - timeout > 10000) {
-        Serial.println(">>> タイムアウトしました。");
+        Serial.println(">>> タイムアウトしました");
         client.stop();
         return;
       }
