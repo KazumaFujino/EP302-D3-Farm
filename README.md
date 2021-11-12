@@ -17,6 +17,7 @@ https://www.arduino.cc/en/software
 ### microcomputer
 - ideにマイコンを認識させる<br>
 http://ahoministrator.sakura.ne.jp/retrospective/archives/1048
+- .inoのサーバip情報をサーバマシンのものに変更
 - .inoをマイコンに書き込み起動
 - マイコンのAPに接続して使用したいwifi情報を入力<br>
 [wifimangager](https://github.com/tzapu/WiFiManager)を使わせてもらっているので繋げ方はリンクを参照
