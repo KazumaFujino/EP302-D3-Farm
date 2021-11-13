@@ -1,13 +1,16 @@
 ## description
 2021年2年PD実践 EP302-D3が作ったファームウェア(.ino)とサーバサイドの送受信プログラム(.py)である．<br>
-本授業は試作品を作る授業なので，見にくい点も多い．
-また，本プログラムの質問等も受け付けません．
+本授業は試作品を作る授業なので，見にくい点も多い．<br>
+本リポジトリの質問等は受けかねます．
 ### 使用したもの
 - [水流センサ](https://ja.aliexpress.com/item/32784530232.html)
 - [arduinoボード](https://ja.aliexpress.com/w/wholesale-wemos-d1-mini.html)
 - ESP8266
 - 私たちが使用した開発ボード<br>
 https://ja.aliexpress.com/item/32651747570.html
+## hardware
+![](https://i.imgur.com/y0MG0cK.png)
+`hardware/`のstlファイルを参照
 ## setup
 ### install
 - リポジトリをclone<br>
