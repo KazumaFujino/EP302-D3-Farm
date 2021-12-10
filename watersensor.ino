@@ -7,7 +7,7 @@
 
 // HTTP サーバサイドの情報
 #define IMG_BUF 4096
-const char* host   = "172.18.9.97"; //サーバip
+const char* host   = "172.18.8.205"; //サーバip
 const int httpPort = 80;
 const char* path   = "/";
 
