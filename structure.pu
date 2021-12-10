@@ -1,0 +1,34 @@
+@startuml
+title 水流センサシステムのコンポーネント図
+frame consumer{
+node ESP8266{
+    [water_sensor]
+    [publisher]
+}
+node device{
+    [browser]
+}
+}
+actor user
+
+cloud server{
+package python{
+    [insert_mysql]
+    [plot_mysql]
+}
+
+database MySql{
+    folder user_x{
+        [amount]
+        [datetime]
+    }
+insert_mysql -->MySql
+plot_mysql -->MySql
+user_x --> plot_mysql
+}
+}
+plot_mysql ..> browser:HTTP
+publisher ..> insert_mysql:HTTP
+user ..> device
+
+@enduml
