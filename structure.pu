@@ -27,7 +27,7 @@ plot_mysql -->MySql
 user_x --> plot_mysql
 }
 }
-plot_mysql ..> browser:HTTP
+plot_mysql <..> browser:HTTP
 publisher ..> insert_mysql:HTTP
 user ..> device
 
