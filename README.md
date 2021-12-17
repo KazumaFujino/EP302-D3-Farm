@@ -1,7 +1,6 @@
 ## description
 2021年２年PD実践 EP302-D3が作ったファームウェア(.ino)とサーバサイドの送受信プログラム(.py)である．<br>
-本授業は試作品を作る授業なので，見にくい点も多い．<br>
-また，本プログラムの質問等も受け付けません．<br>
+本授業は試作品を作る授業なので，見にくい点も多い．また，本プログラムの質問等も受け付けません．
 ### 使用したもの
 - [水流センサ](https://ja.aliexpress.com/item/32784530232.html)
 - [マイコン](https://ja.aliexpress.com/w/wholesale-wemos-d1-mini.html)
